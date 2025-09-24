@@ -25,9 +25,6 @@ app.use(
     origin: ["http://localhost:3000", "https://flowfix-admin-front.vercel.app"],
   })
 );
-app.get("/health", (_req, res) => {
-  res.status(200).send("ok!");
-});
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
 const JWT_SECRET = process.env.JWT_SECRET!;
@@ -100,6 +97,9 @@ app.post("/auth/google", (req, res): void => {
 });
 
 const PORT = Number(process.env.PORT) || 4000;
+app.get("/health", (_req, res) => {
+  res.status(200).send("ok!");
+});
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`API listening on ${PORT}`);
 });
