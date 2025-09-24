@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: flowfix-backend
+    env: node
+    region: frankfurt
+    buildCommand: "npm ci && npm run build"
+    startCommand: "npm run start"
+    autoDeploy: true
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
