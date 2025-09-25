@@ -24,15 +24,32 @@ async function bootstrap() {
   });
 
   app.use(express.json());
+  const whitelist = [
+    "http://localhost:3000",
+    "https://flowfix-admin-front.vercel.app",
+    "https://talent.pinebaatars.mn",
+  ];
+
   app.use(
     cors({
-      origin: [
-        "http://localhost:3000",
-        "https://flowfix-admin-front.vercel.app",
-      ],
+      origin: (origin, cb) => {
+        // Postman/cURL гэх мэт Origin илгээгүй хүсэлтийг мөн зөвшөөрнө
+        if (!origin) return cb(null, true);
+
+        // Chrome extension-ууд
+        if (origin.startsWith("chrome-extension://")) return cb(null, true);
+
+        // Манай домэйнүүд
+        if (whitelist.includes(origin)) return cb(null, true);
+
+        return cb(new Error(`Not allowed by CORS: ${origin}`));
+      },
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
       credentials: true,
     })
   );
+  app.options("*", cors());
 
   await connectDB();
   const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
@@ -64,7 +81,6 @@ async function bootstrap() {
           return;
         }
 
-        // upsert user by email
         const update = {
           googleId: payload.sub,
           email: payload.email,
