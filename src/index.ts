@@ -49,7 +49,6 @@ async function bootstrap() {
       credentials: true,
     })
   );
-  app.options("*", cors());
 
   await connectDB();
   const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
