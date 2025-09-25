@@ -13,6 +13,12 @@ dotenv.config();
 
 async function bootstrap() {
   const app = express();
+  app.get(["/health", "/healthz"], (_req, res) => {
+    res.status(200).send("ok");
+  });
+  app.head(["/health", "/healthz"], (_req, res) => {
+    res.sendStatus(200);
+  });
 
   app.use(express.json());
   app.use(
