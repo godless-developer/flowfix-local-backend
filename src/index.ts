@@ -28,7 +28,7 @@ async function bootstrap() {
   await connectDB();
 
   app.use("/api/openai", openaiRouter);
-  app.use("/v1", infoRoutes);
+  app.use("/", infoRoutes);
   app.use("/users", signupRoutes);
   app.use("/users", loginRoutes);
   app.use("/notif", router);
