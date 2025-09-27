@@ -1,17 +1,18 @@
 // routes/AdminNotif.ts
 import express, { Request, Response } from "express";
 import AdminNotifModel from "../models/AdminNotifModel.js";
+import { title } from "process";
 
 const router = express.Router();
 
 router.post("/admin", async (req: Request, res: Response): Promise<void> => {
   try {
-    const { AdNotif } = req.body;
+    const { AdNotif, title } = req.body;
     if (!AdNotif) {
       res.status(400).json({ message: "AdNotif is required" });
       return;
     }
-    const created = await AdminNotifModel.create({ AdNotif });
+    const created = await AdminNotifModel.create({ AdNotif, title });
     res.status(201).json({
       message: "Мэдэгдэл амжилттай хадгалагдлаа",
       data: created,
@@ -54,14 +55,14 @@ router.delete("/:id", async (req: Request, res: Response): Promise<void> => {
 router.put("/:id", async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { AdNotif } = req.body;
+    const { AdNotif, title } = req.body;
     if (!AdNotif) {
       res.status(400).json({ message: "AdNotif is required" });
       return;
     }
     const updated = await AdminNotifModel.findByIdAndUpdate(
       id,
-      { AdNotif },
+      { AdNotif, title },
       { new: true }
     );
     if (!updated) {
@@ -84,6 +85,7 @@ router.get("/latest", async (_req: Request, res: Response): Promise<void> => {
     }
     res.status(200).json({
       notif: latest.AdNotif,
+      title: latest.title,
       createdAt: latest.createdAt,
     });
   } catch (err) {
