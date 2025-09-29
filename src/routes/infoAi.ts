@@ -9,7 +9,6 @@ router.post("/info", (req: Request, res: Response): void => {
     try {
       const { title, info, files } = req.body; // ⬅️ fileName/fileExt биш, files[]
       if (!info) return res.status(400).json({ error: "Info is required" });
-
       const created = await InfoAiModel.create({
         title,
         info,

@@ -26,7 +26,7 @@ async function bootstrap() {
   app.use(express.json());
   const whitelist = [
     "http://localhost:3000",
-    "https://flowfix-admin-front.vercel.app",
+    "https://flowfix-admin.vercel.app",
     "https://talent.pinebaatars.mn",
   ];
 
