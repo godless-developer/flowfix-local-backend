@@ -1,4 +1,3 @@
-// routes/info.ts
 import express, { Request, Response } from "express";
 import InfoAiModel from "../models/InfoAiModel.js";
 
@@ -8,10 +7,16 @@ const router = express.Router();
 router.post("/info", (req: Request, res: Response): void => {
   (async () => {
     try {
-      const { title, info } = req.body;
+      const { title, info, fileName, fileExt } = req.body;
       if (!info) return res.status(400).json({ error: "Info is required" });
 
-      const created = await InfoAiModel.create({ title, info });
+      const created = await InfoAiModel.create({
+        title,
+        info,
+        fileName,
+        fileExt,
+      });
+
       res.status(201).json({ message: "Info saved", data: created });
     } catch (err) {
       console.error("POST /info error:", err);
@@ -36,7 +41,7 @@ router.put("/info/:id", (req: Request, res: Response): void => {
   (async () => {
     try {
       const { id } = req.params;
-      const { title, info } = req.body;
+      const { title, info, fileName, fileExt } = req.body;
 
       if (!info) {
         return res.status(400).json({ error: "Info is required for update" });
@@ -44,7 +49,7 @@ router.put("/info/:id", (req: Request, res: Response): void => {
 
       const updated = await InfoAiModel.findByIdAndUpdate(
         id,
-        { title, info },
+        { title, info, fileName, fileExt },
         { new: true }
       );
 
