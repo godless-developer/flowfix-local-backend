@@ -1,7 +1,6 @@
 // routes/AdminNotif.ts
 import express, { Request, Response } from "express";
 import AdminNotifModel from "../models/AdminNotifModel.js";
-import { title } from "process";
 
 const router = express.Router();
 

@@ -8,10 +8,10 @@ const router = express.Router();
 router.post("/info", (req: Request, res: Response): void => {
   (async () => {
     try {
-      const { info } = req.body;
+      const { title, info } = req.body;
       if (!info) return res.status(400).json({ error: "Info is required" });
 
-      const created = await InfoAiModel.create({ info });
+      const created = await InfoAiModel.create({ title, info });
       res.status(201).json({ message: "Info saved", data: created });
     } catch (err) {
       console.error("POST /info error:", err);
@@ -31,11 +31,12 @@ router.get("/infos", async (_: Request, res: Response) => {
   }
 });
 
+// === PUT: update info ===
 router.put("/info/:id", (req: Request, res: Response): void => {
   (async () => {
     try {
       const { id } = req.params;
-      const { info } = req.body;
+      const { title, info } = req.body;
 
       if (!info) {
         return res.status(400).json({ error: "Info is required for update" });
@@ -43,7 +44,7 @@ router.put("/info/:id", (req: Request, res: Response): void => {
 
       const updated = await InfoAiModel.findByIdAndUpdate(
         id,
-        { info },
+        { title, info },
         { new: true }
       );
 
@@ -59,6 +60,7 @@ router.put("/info/:id", (req: Request, res: Response): void => {
   })();
 });
 
+// === DELETE: remove info ===
 router.delete("/info/:id", (req: Request, res: Response): void => {
   (async () => {
     try {

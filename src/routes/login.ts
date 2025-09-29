@@ -70,7 +70,6 @@ router.post("/login", (req, res): void => {
       if (!isMatch) {
         return res.status(401).json({ message: "Нууц үг буруу байна." });
       }
-
       return res.status(200).json({
         message: "Амжилттай нэвтэрлээ.",
         user: {
