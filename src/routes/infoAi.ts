@@ -7,14 +7,13 @@ const router = express.Router();
 router.post("/info", (req: Request, res: Response): void => {
   (async () => {
     try {
-      const { title, info, fileName, fileExt } = req.body;
+      const { title, info, files } = req.body; // ⬅️ fileName/fileExt биш, files[]
       if (!info) return res.status(400).json({ error: "Info is required" });
 
       const created = await InfoAiModel.create({
         title,
         info,
-        fileName,
-        fileExt,
+        files, // ⬅️ шууд массив хадгална
       });
 
       res.status(201).json({ message: "Info saved", data: created });
@@ -41,7 +40,7 @@ router.put("/info/:id", (req: Request, res: Response): void => {
   (async () => {
     try {
       const { id } = req.params;
-      const { title, info, fileName, fileExt } = req.body;
+      const { title, info, files } = req.body; // ⬅️ files array
 
       if (!info) {
         return res.status(400).json({ error: "Info is required for update" });
@@ -49,7 +48,7 @@ router.put("/info/:id", (req: Request, res: Response): void => {
 
       const updated = await InfoAiModel.findByIdAndUpdate(
         id,
-        { title, info, fileName, fileExt },
+        { title, info, files },
         { new: true }
       );
 
